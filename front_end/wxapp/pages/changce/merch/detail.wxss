@@ -59,10 +59,9 @@
 }
 .fui-header {
     background: #fff;
-    z-index: 9999;
     display: flex;
     padding: 0 8rpx;
-	position:relative;
+	  position:relative;
 }
 
 .fui-header .searchbar {

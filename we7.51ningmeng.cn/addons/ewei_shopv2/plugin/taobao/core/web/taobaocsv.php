@@ -50,6 +50,17 @@ class Taobaocsv_EweiShopV2Page extends PluginWebPage
 				if ($col == 'propAlias') {
 					$colsIndex['propAlias'] = $i;
 				}
+				//add@20190515 for [add new three fields:cate_name,productsn,unit]
+				if ($col == 'cate_name') {
+					$colsIndex['cate_name'] = $i;
+				}
+				if ($col == 'productsn') {
+					$colsIndex['productsn'] = $i;
+				}
+				if ($col == 'unit') {
+					$colsIndex['unit'] = $i;
+				}
+				//end add
 
 				++$i;
 			}
@@ -68,6 +79,11 @@ class Taobaocsv_EweiShopV2Page extends PluginWebPage
 				$item['total'] = $col[$colsIndex[num]];
 				$item['content'] = $col[$colsIndex[description]];
 				$picContents = $col[$colsIndex[picture]];
+				//add@20190515 for [add new three fields:cate_name,productsn,unit]
+				$item['cate_name'] = $col[$colsIndex[cate_name]];
+				$item['productsn'] = $col[$colsIndex[productsn]];
+				$item['unit'] = $col[$colsIndex[unit]];
+				//end add
 				$allpics = explode(';', $picContents);
 				$pics = array();
 				$optionpics = array();

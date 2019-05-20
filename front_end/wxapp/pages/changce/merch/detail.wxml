@@ -14,10 +14,10 @@
             </view>
         </view>
     </view>
-	<view class="fui-header">
+	  <view class="fui-header">
         <view class="searchbar">
             <icon size="18" type="search"></icon>
-            <input bindconfirm="bindSearch" bindfocus="bindFocus" bindinput="bindInput" focus="{{focusin}}" name="search" placeholder="搜索店铺内宝贝" value="{{params.keywords}}"></input>
+            <input bindconfirm="bindSearch" bindinput="bindInput" focus="{{focusin}}" name="search" placeholder="搜索店铺内宝贝" value="{{params.keywords}}"></input>
         </view>
         <view bindtap="bindback" class="cancel" wx:if="{{fromsearch}}">取消</view>
     </view>
@@ -55,10 +55,10 @@
             </view>
         </view>
 		<view bindtap="changeMode" class="item">
-		<text class="icon icox {{listmode==''?'icox-app':'icox-viewlist'}}" wx:if="{{!fromsearch}}"></text>
+		<text class="icon icox {{listmode==''?'icox-app':'icox-viewlist'}}"></text>
 		</view>
     </view>
-    <view class="fui-goods-group block">
+    <view class="fui-goods-group {{listmode}}">
         <view class="fui-goods-item" wx:for="{{list}}">
             <navigator hoverClass="none" url="/pages/goods/detail/index?id={{item.id}}">
                 <view class="image" style="background-image:url({{item.thumb}})"></view>

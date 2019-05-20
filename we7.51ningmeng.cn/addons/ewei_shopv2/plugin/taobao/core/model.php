@@ -2038,8 +2038,62 @@ class TaobaoModel extends PluginModel
 			}
 		}
 		$data["thumb_url"] = serialize($thumb_url);
-		pdo_insert("ewei_shop_goods", $data);
-		$goodsid = pdo_insertid();
+		//add@20190515 for [add new three fields:cate_name,productsn,unit]
+		if(isset($item["productsn"]) && !empty($item["productsn"])){
+			$data["productsn"] = $item["productsn"];
+		}
+		if(isset($item["unit"]) && !empty($item["unit"])){
+			$data["unit"] = $item["unit"];
+		}
+		if(isset($item["cate_name"])){
+			$ccate_name = trim($item["cate_name"]);
+			
+			$cates = array( );	
+			$pcates = array( );
+			$ccates = array( );		
+			
+			$pcateid = 0;
+			$ccateid = 0;
+			if(!empty($ccate_name)){
+				//find 	category id based on cate_name
+		
+				$c = pdo_fetch("select id,parentid from " . tablename("ewei_shop_category") . " where name=:name and uniacid=:uniacid and level=2 limit 1", array( ":name" => $ccate_name, ":uniacid" => $_W["uniacid"] ));
+				
+				$pcates[] = $c["parentid"];
+				$ccates[] = $c["id"];
+				$cates[] = $c["id"];
+				
+				$pcateid = $c["parentid"];
+				$ccateid = $c["id"];
+			}
+			$data["pcate"] = $pcateid;
+			$data["ccate"] = $ccateid;
+			
+			$data["cates"] = implode(",", $cates);
+			$data["pcates"] = implode(",", $pcates);
+			$data["ccates"] = implode(",", $ccates);
+			
+		}
+		//end add
+		
+		/* pdo_insert("ewei_shop_goods", $data);
+		$goodsid = pdo_insertid();*/
+		
+		//update@20190516 for checking if title is repeated
+		$goods = pdo_fetch("select id from " . tablename("ewei_shop_goods") . " where  title=:title and uniacid=:uniacid and productsn=:productsn and merchid=:merchid", array( ":title" => $item["title"], ":uniacid" => $_W["uniacid"], ":productsn" => $item["productsn"], ":merchid" => $merchid ));
+		if( empty($goods) ) 
+		{
+			pdo_insert("ewei_shop_goods", $data);
+			$goodsid = pdo_insertid();
+		}
+		else 
+		{
+			$goodsid = $goods["id"];
+			pdo_update("ewei_shop_goods", $data, array( "id" => $goodsid ));
+		}
+		//end update
+		
+		
 		$content = $item["content"];
 		preg_match_all("/<img.*?src=[\\\\'| \\\"](.*?(?:[\\.gif|\\.jpg]?))[\\\\'|\\\"].*?[\\/]?>/", $content, $imgs);
 		if( isset($imgs[1]) ) 

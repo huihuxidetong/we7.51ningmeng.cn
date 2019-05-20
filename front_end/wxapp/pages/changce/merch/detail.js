@@ -15,11 +15,17 @@ Page({
         list: [],
         approot: t.globalData.approot,
         modelShow: !1,
-        count: 0
+        count: 0,
+        params: {
+          keywords: "",
+          order: "",
+          by: "desc",
+        },
+        listmode: "block",
     },
     onLoad: function(t) {
         this.setData({
-            merchid: t.id
+            merchid: t.id,
         }), this.getMerch(), this.getList();
     },
     getMerch: function() {
@@ -41,7 +47,10 @@ Page({
             cateid: this.data.cateid,
             id: t.data.merchid,
             isnew: this.data.isnew,
-            isrecommand: this.data.isrecommand
+            isrecommand: this.data.isrecommand,
+            order: this.data.params.order,
+            by: this.data.params.by,
+            keywords: this.data.params.keywords,
         }, function(e) {
             var i = {
                 loading: !1,
@@ -165,5 +174,86 @@ Page({
   number: function (t) {
     var e = this;
     c.number(t, e);
+  },
+  bindSort: function (t) {
+    var e = t.currentTarget.dataset.order, a = this.data.params;
+    if ("" == e) {
+      if (a.order == e) return;
+      a.order = "", this.setData({
+        listorder: ""
+      });
+    } else if ("minprice" == e) this.setData({
+      listorder: ""
+    }), a.order == e ? "desc" == a.by ? a.by = "asc" : a.by = "desc" : a.by = "asc",
+      a.order = e, this.setData({
+        listorder: a.by
+      }); else if ("sales" == e) {
+        if (a.order == e) return;
+        this.setData({
+          listorder: ""
+        }), a.order = "sales", a.by = "desc";
+      }
+    this.setData({
+      params: a,
+      page: 1,
+      list: [],
+      loading: !0,
+      loaded: !1
+    }), this.getList();
+  },
+  changeMode: function () {
+    "block" == this.data.listmode ? this.setData({
+      listmode: ""
+    }) : this.setData({
+      listmode: "block"
+    });
+  },
+  bindSearch: function (t) {
+    t.target, this.setData({
+      list: [],
+      loading: !0,
+      loaded: !1
+    });
+    var a = b.trim(t.detail.value), i = this.data.params;
+    "" != a ? (i.keywords = a, this.setData({
+      page: 1,
+      params: i,
+      fromsearch: !1
+    }), this.getList()) : (i.keywords = "", this.setData({
+      page: 1,
+      params: i,
+      listorder: "",
+      fromsearch: !1
+    }), this.getList());
+  },
+  bindInput: function (t) {
+    var a = b.trim(t.detail.value), s = this.data.params;
+    s.keywords = a;
+    this.setData({
+      page: 1,
+      list: [],
+      loading: !0,
+      loaded: !1,
+      params: s,
+      fromsearch: !0
+    }), this.getList();
+  },
+  bindFocus: function (t) {
+    console.log(t); 
+    "" == b.trim(t.detail.value) && this.setData({
+      fromsearch: !0
+    });
+  },
+  bindback: function () {
+    var s = this.data.params;
+    s.keywords = "";
+    this.setData({
+      page: 1,
+      list: [],
+      loading: !0,
+      loaded: !1,
+      params: s,
+      fromsearch: !1,
+    }), this.getList();
   },
 });

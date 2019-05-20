@@ -19,7 +19,7 @@
     </view>
     <block wx:for="{{merch_list}}">
         <view class="fui-cell-group fui-cell-click">
-            <navigator class="fui-cell" hoverClass="none" openType="switchTab" url="/pages/index/index?merchid={{item.merchid}}">
+            <navigator class="fui-cell" hoverClass="none" url="/pages/changce/merch/detail?id={{item.merchid}}">
                 <view class="fui-cell-icon">
                     <text class="icox icox-dianpu1"></text>
                 </view>
