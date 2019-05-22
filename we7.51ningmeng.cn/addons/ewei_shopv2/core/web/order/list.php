@@ -530,6 +530,9 @@ class List_EweiShopV2Page extends WebPage
 						$value["addressdata"]["realname"] = $value["realname"];
 						$value["mobile"] = $carrier["carrier_mobile"];
 						$value["addressdata"]["mobile"] = $value["mobile"];
+						//add@20190522
+						$value["addressdata"]["address"] = "";
+						//end add
 					}
 				}
 				else 
