@@ -85,7 +85,7 @@
 				{if $type == 'topmenu_data'}
 				<li class="active"><a href="#sut_goods_data" class="sut_goods_data">商品</a></li>
 				<li class=""><a href="#sut_shop_data" class="sut_shop_data">门店</a></li>
-				{/if}
+				{/if}								{if $platform=='wxapp' && $type != 'topmenu' && $type != 'topmenu_data'}				<li class=""><a href="#sut_define_url">自定义URL</a></li>				{/if}
 			</ul>
 			<div class="tab-content ">
 				{if ($type != 'topmenu' && $type != 'topmenu_data') || $platform == 'wxapp'}
@@ -471,7 +471,7 @@
 					<!--<nav title="选择" style=" width:  82px;height: 30px;line-height: 27px;margin-top: 22px;" class="btn btn-default btn-sm" data-type="{$type}" data-condition="" data-tab="stores">确定</nav>-->
 					<!--</div>-->
 				</div>
-				{/if}
+				{/if}								{if $platform=='wxapp' && $type != 'topmenu' && $type != 'topmenu_data'}				<div class="tab-pane" id="sut_define_url" style="min-height: 100px;">					<div class="row" style="margin: 100px 80px 80px;">						<div class="input-group">							<span class="input-group-addon">自定义URL</span>							<input type="text" placeholder="请输入有效URL" id="select-defineurl-kw" value="" class="form-control">							<span class="input-group-addon btn btn-primary select-btn" data-type="defineurl">确认使用</span>							<nav id="select-diy-defineurl"></nav>						</div>					</div>				</div>				{/if}
 			</div>
 		</div>
 		<div class="modal-footer">
@@ -527,7 +527,7 @@
 
                         return;
                     }
-
+					if(type=='defineurl'){                        if(!kw || kw==''){                            tip.msgbox.err("请输入自定义链接！");                            return;                        }                        $('#select-diy-defineurl').data('href', kw).trigger('click');                        return;                    }
                     if(type == 'goods_data_diy' && kw == ''){
                         kw = 'all';
                     }
@@ -535,7 +535,7 @@
                     if(!kw || kw==''){
                         tip.msgbox.err("请输入搜索关键字！");
                         return;
-                    }
+                    }										
 
 
                     $("#select-"+type+"-list").html('<div class="tip">正在进行搜索...</div>');
