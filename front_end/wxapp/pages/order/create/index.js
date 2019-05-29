@@ -19,7 +19,8 @@ Page({
                 mobile: "",
                 areas: "",
                 street: "",
-                address: ""
+                address: "",
+				shopname: ""
             }
         },
         merchid: 0,

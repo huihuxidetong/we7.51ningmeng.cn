@@ -59,3 +59,10 @@
 .icon {
     padding: 0 10rpx;
 }
+.fui-list-inner .title .shopname {
+	  display: inline-block;
+    max-width: 450rpx;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

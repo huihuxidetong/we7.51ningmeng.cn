@@ -78,8 +78,8 @@ class List_EweiShopV2Page extends MerchWebPage
 				{
 					if( $searchfield == "address" ) 
 					{
-						$condition .= " AND ( locate(:keyword,a.realname)>0 or locate(:keyword,a.mobile)>0 or locate(:keyword,o.carrier)>0)";
-						$priceCondition = " AND (a.realname LIKE '" . $_GPC["keyword"] . "%' OR a.mobile LIKE '" . $_GPC["keyword"] . "%')";
+						$condition .= " AND ( locate(:keyword,a.realname)>0 or locate(:keyword,a.mobile)>0 or locate(:keyword,a.shopname)>0 or locate(:keyword,o.carrier)>0)";
+						$priceCondition = " AND (a.realname LIKE '" . $_GPC["keyword"] . "%' OR a.mobile LIKE '" . $_GPC["keyword"] . "%' OR a.shopname LIKE '" . $_GPC["keyword"] . "%')";
 					}
 					else 
 					{
@@ -245,7 +245,7 @@ class List_EweiShopV2Page extends MerchWebPage
 				}
 			}
 		}
-		$sql = "select o.* , a.realname as arealname,a.mobile as amobile,a.province as aprovince ,a.city as acity , a.area as aarea,a.address as aaddress,a.street as astreet,d.dispatchname,m.nickname,m.id as mid,m.realname as mrealname,m.mobile as mmobile,sm.id as salerid,sm.nickname as salernickname,s.salername,r.rtype,r.status as rstatus from " . tablename("ewei_shop_order") . " o" . " left join " . tablename("ewei_shop_order_refund") . " r on r.id =o.refundid " . " left join " . tablename("ewei_shop_member") . " m on m.openid=o.openid and m.uniacid =  o.uniacid " . " left join " . tablename("ewei_shop_member_address") . " a on a.id=o.addressid " . " left join " . tablename("ewei_shop_dispatch") . " d on d.id = o.dispatchid " . " left join " . tablename("ewei_shop_merch_saler") . " s on s.openid = o.verifyopenid and s.uniacid=o.uniacid and s.merchid=o.merchid" . " left join " . tablename("ewei_shop_member") . " sm on sm.openid = s.openid and sm.uniacid=s.uniacid" . " " . $sqlcondition . " where " . $condition . " " . $statuscondition . " GROUP BY o.id ORDER BY o.createtime DESC,o.status DESC  ";
+		$sql = "select o.* , a.realname as arealname,a.mobile as amobile,a.province as aprovince ,a.city as acity , a.area as aarea,a.address as aaddress,a.street as astreet,a.shopname as ashopname,d.dispatchname,m.nickname,m.id as mid,m.realname as mrealname,m.mobile as mmobile,sm.id as salerid,sm.nickname as salernickname,s.salername,r.rtype,r.status as rstatus from " . tablename("ewei_shop_order") . " o" . " left join " . tablename("ewei_shop_order_refund") . " r on r.id =o.refundid " . " left join " . tablename("ewei_shop_member") . " m on m.openid=o.openid and m.uniacid =  o.uniacid " . " left join " . tablename("ewei_shop_member_address") . " a on a.id=o.addressid " . " left join " . tablename("ewei_shop_dispatch") . " d on d.id = o.dispatchid " . " left join " . tablename("ewei_shop_merch_saler") . " s on s.openid = o.verifyopenid and s.uniacid=o.uniacid and s.merchid=o.merchid" . " left join " . tablename("ewei_shop_member") . " sm on sm.openid = s.openid and sm.uniacid=s.uniacid" . " " . $sqlcondition . " where " . $condition . " " . $statuscondition . " GROUP BY o.id ORDER BY o.createtime DESC,o.status DESC  ";
 		if( empty($_GPC["export"]) ) 
 		{
 			$sql .= "LIMIT " . ($pindex - 1) * $psize . "," . $psize;
@@ -328,6 +328,9 @@ class List_EweiShopV2Page extends MerchWebPage
 					$value["addressdata"]["mobile"] = $value["mobile"];
 					//add@20190522
 					$value["addressdata"]["address"] = "";
+					
+					//add@20190529 for new filed[shopname]
+					$value["addressdata"]["shopname"] = "";
 					//end add
 				}
 			}
@@ -342,13 +345,16 @@ class List_EweiShopV2Page extends MerchWebPage
 				$value["area"] = ($isarray ? $address["area"] : $value["aarea"]);
 				$value["address"] = ($isarray ? $address["address"] : $value["aaddress"]);
 				$value["street"] = ($isarray ? $address["street"] : $value["astreet"]);
+				//add@20190529 for new filed[shopname]
+				$value["shopname"] = ($isarray ? $address["shopname"] : $value["ashopname"]);
+				//end add
 				$value["address_province"] = $value["province"];
 				$value["address_city"] = $value["city"];
 				$value["address_area"] = $value["area"];
 				$value["address_street"] = $value["street"];
 				$value["address_address"] = $value["address"];
 				$value["address"] = $value["province"] . " " . $value["city"] . " " . $value["area"] . " " . $value["address"];
-				$value["addressdata"] = array( "realname" => $value["realname"], "mobile" => $value["mobile"], "address" => $value["address"] );
+				$value["addressdata"] = array( "realname" => $value["realname"], "mobile" => $value["mobile"], "address" => $value["address"], "shopname" => $value["shopname"] );
 			}
 			$commission1 = -1;
 			$commission2 = -1;
@@ -548,7 +554,7 @@ class List_EweiShopV2Page extends MerchWebPage
 		if( $_GPC["export"] == 1 ) 
 		{
 			plog("order.op.export", "导出订单");
-			$columns = array( array( "title" => "订单编号", "field" => "ordersn", "width" => 24 ), array( "title" => "粉丝昵称", "field" => "nickname", "width" => 12 ), array( "title" => "会员姓名", "field" => "mrealname", "width" => 12 ), array( "title" => "openid", "field" => "openid", "width" => 24 ), array( "title" => "会员手机手机号", "field" => "mmobile", "width" => 12 ), array( "title" => "收货姓名(或自提人)", "field" => "realname", "width" => 12 ), array( "title" => "联系电话", "field" => "mobile", "width" => 12 ), array( "title" => "收货地址", "field" => "address_province", "width" => 12 ), array( "title" => "", "field" => "address_city", "width" => 12 ), array( "title" => "", "field" => "address_area", "width" => 12 ), array( "title" => "", "field" => "address_street", "width" => 12 ), array( "title" => "", "field" => "address_address", "width" => 12 ), array( "title" => "卖家备注", "field" => "remarksaler", "width" => 24 ), array( "title" => "商品名称", "field" => "goods_title", "width" => 24 ), array( "title" => "商品编码", "field" => "goods_goodssn", "width" => 12 ), array( "title" => "商品规格", "field" => "goods_optiontitle", "width" => 12 ), array( "title" => "商品数量", "field" => "goods_total", "width" => 12 ), array( "title" => "商品单价(折扣前)", "field" => "goods_price1", "width" => 12 ), array( "title" => "商品单价(折扣后)", "field" => "goods_price2", "width" => 12 ), array( "title" => "商品价格(折扣后)", "field" => "goods_rprice1", "width" => 12 ), array( "title" => "商品价格(折扣后)", "field" => "goods_rprice2", "width" => 12 ), array( "title" => "支付方式", "field" => "paytype", "width" => 12 ), array( "title" => "配送方式", "field" => "dispatchname", "width" => 12 ), array( "title" => "商品小计", "field" => "goodsprice", "width" => 12 ), array( "title" => "运费", "field" => "dispatchprice", "width" => 12 ), array( "title" => "积分抵扣", "field" => "deductprice", "width" => 12 ), array( "title" => "余额抵扣", "field" => "deductcredit2", "width" => 12 ), array( "title" => "满额立减", "field" => "deductenough", "width" => 12 ), array( "title" => "优惠券优惠", "field" => "couponprice", "width" => 12 ), array( "title" => "订单改价", "field" => "changeprice", "width" => 12 ), array( "title" => "运费改价", "field" => "changedispatchprice", "width" => 12 ), array( "title" => "应收款", "field" => "price", "width" => 12 ), array( "title" => "状态", "field" => "status", "width" => 12 ), array( "title" => "下单时间", "field" => "createtime", "width" => 24 ), array( "title" => "付款时间", "field" => "paytime", "width" => 24 ), array( "title" => "发货时间", "field" => "sendtime", "width" => 24 ), array( "title" => "完成时间", "field" => "finishtime", "width" => 24 ), array( "title" => "快递公司", "field" => "expresscom", "width" => 24 ), array( "title" => "快递单号", "field" => "expresssn", "width" => 24 ), array( "title" => "订单备注", "field" => "remark", "width" => 36 ), array( "title" => "核销员", "field" => "salerinfo", "width" => 24 ), array( "title" => "核销门店", "field" => "storeinfo", "width" => 36 ), array( "title" => "订单自定义信息", "field" => "order_diyformdata", "width" => 36 ), array( "title" => "商品自定义信息", "field" => "goods_diyformdata", "width" => 36 ) );
+			$columns = array( array( "title" => "订单编号", "field" => "ordersn", "width" => 24 ), array( "title" => "粉丝昵称", "field" => "nickname", "width" => 12 ), array( "title" => "会员姓名", "field" => "mrealname", "width" => 12 ), array( "title" => "openid", "field" => "openid", "width" => 24 ), array( "title" => "会员手机手机号", "field" => "mmobile", "width" => 12 ), array( "title" => "收货姓名(或自提人)", "field" => "realname", "width" => 12 ), array( "title" => "联系电话", "field" => "mobile", "width" => 12 ), array( "title" => "门店名称", "field" => "shopname", "width" => 12 ), array( "title" => "收货地址", "field" => "address_province", "width" => 12 ), array( "title" => "", "field" => "address_city", "width" => 12 ), array( "title" => "", "field" => "address_area", "width" => 12 ), array( "title" => "", "field" => "address_street", "width" => 12 ), array( "title" => "", "field" => "address_address", "width" => 12 ), array( "title" => "卖家备注", "field" => "remarksaler", "width" => 24 ), array( "title" => "商品名称", "field" => "goods_title", "width" => 24 ), array( "title" => "商品编码", "field" => "goods_goodssn", "width" => 12 ), array( "title" => "商品规格", "field" => "goods_optiontitle", "width" => 12 ), array( "title" => "商品数量", "field" => "goods_total", "width" => 12 ), array( "title" => "商品单价(折扣前)", "field" => "goods_price1", "width" => 12 ), array( "title" => "商品单价(折扣后)", "field" => "goods_price2", "width" => 12 ), array( "title" => "商品价格(折扣后)", "field" => "goods_rprice1", "width" => 12 ), array( "title" => "商品价格(折扣后)", "field" => "goods_rprice2", "width" => 12 ), array( "title" => "支付方式", "field" => "paytype", "width" => 12 ), array( "title" => "配送方式", "field" => "dispatchname", "width" => 12 ), array( "title" => "商品小计", "field" => "goodsprice", "width" => 12 ), array( "title" => "运费", "field" => "dispatchprice", "width" => 12 ), array( "title" => "积分抵扣", "field" => "deductprice", "width" => 12 ), array( "title" => "余额抵扣", "field" => "deductcredit2", "width" => 12 ), array( "title" => "满额立减", "field" => "deductenough", "width" => 12 ), array( "title" => "优惠券优惠", "field" => "couponprice", "width" => 12 ), array( "title" => "订单改价", "field" => "changeprice", "width" => 12 ), array( "title" => "运费改价", "field" => "changedispatchprice", "width" => 12 ), array( "title" => "应收款", "field" => "price", "width" => 12 ), array( "title" => "状态", "field" => "status", "width" => 12 ), array( "title" => "下单时间", "field" => "createtime", "width" => 24 ), array( "title" => "付款时间", "field" => "paytime", "width" => 24 ), array( "title" => "发货时间", "field" => "sendtime", "width" => 24 ), array( "title" => "完成时间", "field" => "finishtime", "width" => 24 ), array( "title" => "快递公司", "field" => "expresscom", "width" => 24 ), array( "title" => "快递单号", "field" => "expresssn", "width" => 24 ), array( "title" => "订单备注", "field" => "remark", "width" => 36 ), array( "title" => "核销员", "field" => "salerinfo", "width" => 24 ), array( "title" => "核销门店", "field" => "storeinfo", "width" => 36 ), array( "title" => "订单自定义信息", "field" => "order_diyformdata", "width" => 36 ), array( "title" => "商品自定义信息", "field" => "goods_diyformdata", "width" => 36 ) );
 			if( !empty($agentid) && 0 < $level ) 
 			{
 				$columns[] = array( "title" => "分销级别", "field" => "level", "width" => 24 );
@@ -687,6 +693,7 @@ class List_EweiShopV2Page extends MerchWebPage
 						$r["changedispatchprice"] = "";
 						$r["price"] = "";
 						$r["order_diyformdata"] = "";
+						$r["shopname"]="";
 					}
 					$r["goods_title"] = $g["title"];
 					$r["goods_goodssn"] = $g["goodssn"];

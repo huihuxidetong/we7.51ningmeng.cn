@@ -21,6 +21,9 @@
                             <text class="name">{{list.address.realname}} </text>
                             <text class="mobile">{{list.address.mobile}}</text>
                         </view>
+						<view class="has-address " wx:if="{{list.address&&list.address.shopname}}">
+							<text class="shopname">{{list.address.shopname}} </text>
+                        </view>
                         <view class="adress" wx:if="{{list.address}}">{{list.address.province+list.address.city+list.address.area+' '+list.address.address}}</view>
                         <view bindtap="address" class="text no-address" data-type="open" wx:if="{{!list.address}}">添加收货地址</view>
                     </view>

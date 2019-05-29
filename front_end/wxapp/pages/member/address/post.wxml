@@ -13,6 +13,12 @@
                 <input bindinput="onChange" class="fui-input" data-type="mobile" placeholder="联系电话" type="number" value="{{detail.mobile}}"></input>
             </view>
         </view>
+		<view class="fui-cell">
+            <view class="fui-cell-label">店铺名称</view>
+            <view class="fui-cell-info">
+                <input bindinput="onChange" class="fui-input" data-type="shopname" placeholder="店铺名称" value="{{detail.shopname}}"></input>
+            </view>
+        </view>
         <view class="fui-cell">
             <view class="fui-cell-label">所在地区</view>
             <view bindtap="selectArea" class="fui-cell-info" data-area="{{detail.province}} {{detail.city}} {{detail.area}}">{{!detail.province||!detail.city?'请选择所在地区':detail.province+' '+detail.city+' '+detail.area}}</view>

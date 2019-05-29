@@ -294,3 +294,11 @@ page {
 .datebtns .date-btn.date-btn-confirm {
     background: #ff5555;
 }
+.has-address .name {
+    display: inline-block;
+    max-width: 200rpx;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-left: 20rpx;
+}

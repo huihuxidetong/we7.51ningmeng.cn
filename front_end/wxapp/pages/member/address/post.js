@@ -10,7 +10,8 @@ Page({
             mobile: "",
             areas: "",
             street: "",
-            address: ""
+            address: "",
+            shopname: ""
         },
         showPicker: !1,
         pvalOld: [ 0, 0, 0 ],

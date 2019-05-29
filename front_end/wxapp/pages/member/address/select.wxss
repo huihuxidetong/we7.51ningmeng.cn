@@ -46,3 +46,11 @@
     overflow: hidden;
     padding-right: 35rpx;
 }
+
+.shopname {
+    display: inline-block;
+    max-width: 300rpx;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

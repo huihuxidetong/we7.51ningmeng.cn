@@ -54,7 +54,7 @@ class Detail_EweiShopV2Page extends WebPage
 			}
 			$address_info = $user["address"];
 			$user["address"] = $user["province"] . " " . $user["city"] . " " . $user["area"] . " " . $user["street"] . " " . $user["address"];
-			$item["addressdata"] = array( "realname" => $user["realname"], "mobile" => $user["mobile"], "address" => $user["address"] );
+			$item["addressdata"] = array( "realname" => $user["realname"], "mobile" => $user["mobile"], "address" => $user["address"], "shopname" => $user["shopname"] );
 		}
 		$refund = pdo_fetch("SELECT * FROM " . tablename("ewei_shop_order_refund") . " WHERE orderid = :orderid and uniacid=:uniacid order by id desc", array( ":orderid" => $item["id"], ":uniacid" => $_W["uniacid"] ));
 		$diyformfields = "";

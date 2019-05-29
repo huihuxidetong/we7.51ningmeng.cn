@@ -80,6 +80,9 @@ class Address_EweiShopV2Page extends AppMobilePage
 		$data["uniacid"] = $_W["uniacid"];
 		$data["datavalue"] = trim($_GPC["datavalue"]);
 		$data["streetdatavalue"] = trim($_GPC["streetdatavalue"]);
+		//add@20190529 for new [shopname] field
+		$data["shopname"] = trim($_GPC["shopname"]);
+		//end add
 		if( empty($data["address"]) ) 
 		{
 			app_error(AppError::$ParamsError, "详细地址为空");
@@ -156,7 +159,7 @@ class Address_EweiShopV2Page extends AppMobilePage
 		global $_GPC;
 		$condition = " and openid=:openid and deleted=0 and  `uniacid` = :uniacid  ";
 		$params = array( ":uniacid" => $_W["uniacid"], ":openid" => $_W["openid"] );
-		$sql = "SELECT id,realname,mobile,address,province,city,area,isdefault FROM " . tablename("ewei_shop_member_address") . " where 1 " . $condition . " ORDER BY isdefault desc, id DESC ";
+		$sql = "SELECT id,realname,mobile,address,province,city,area,isdefault,shopname FROM " . tablename("ewei_shop_member_address") . " where 1 " . $condition . " ORDER BY isdefault desc, id DESC ";
 		$list = pdo_fetchall($sql, $params);
 		app_json(array( "list" => $list ));
 	}

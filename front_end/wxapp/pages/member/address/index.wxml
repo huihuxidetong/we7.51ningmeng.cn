@@ -9,6 +9,9 @@
                         <view class="realname">{{item.realname}}</view>
                         <view class="mobile">{{item.mobile}}</view>
                     </view>
+                    <view class="title">
+                      <view class="shopname">{{item.shopname}}</view>
+                    </view>
                     <view class="text">{{item.province}} {{item.city}} {{item.area}} {{item.address}}</view>
                     <view class="bar">
                         <view bindtap="deleteItem" class="pull-right btn-del" data-id="{{item.id}}">
