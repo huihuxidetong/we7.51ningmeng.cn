@@ -149,11 +149,11 @@
                         <block wx:if="{{dispatchpriceObj==1}}">
                             <text wx:if="{{goods.type==1}}">快递:{{goods.dispatchprice.min}} ~ {{goods.dispatchprice.max}}</text>
                         </block>
-                        <block wx:else>
+                        <!-- <block wx:else>
                             <text wx:if="{{goods.isverify!=2}}">快递:<block wx:if="{{goods.dispatchprice==0}}">包邮</block>
                                 <block wx:else>{{goods.dispatchprice}}</block>
                             </text>
-                        </block>
+                        </block> -->
                         <block wx:if="{{!goods.seckillinfo||goods.seckillinfo&&goods.seckillinfo.status==1}}">
                             <text wx:if="{{goods.showtotal==1}}">库存:{{goods.total}}</text>
                             <text wx:if="{{goods.showsales==1}}">销量:{{goods.sales}}{{goods.unit}}</text>
