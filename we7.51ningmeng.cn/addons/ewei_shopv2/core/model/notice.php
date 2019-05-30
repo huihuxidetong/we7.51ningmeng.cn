@@ -902,7 +902,8 @@ class Notice_EweiShopV2Model
 									}
 								}
 							}
-							if( !empty($tm["mobile"]) && empty($tm["saler_pay_close_sms"]) && empty($is_merch) ) 
+							// if( !empty($tm["mobile"]) && empty($tm["saler_pay_close_sms"]) && empty($is_merch) ) 
+							if( !empty($tm["mobile"]) && empty($tm["saler_pay_close_sms"])) 	
 							{
 								$mobiles = explode(",", $tm["mobile"]);
 								foreach( $mobiles as $mobile ) 
