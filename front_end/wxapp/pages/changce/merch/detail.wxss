@@ -174,3 +174,258 @@
 .sort .item-price.asc .sorting .icon-sanjiao2 {
     color: #ef4f4f;
 }
+
+.shopCar2 {
+    background: #474749;
+    height: 98rpx;
+    color: #fff;
+    font-size: 22rpx;
+    width: 100%;
+}
+
+.shopCar2 icon {
+    width: 110rpx;
+    font-size: 58rpx;
+    color: #fff;
+    text-align: center;
+    line-height: 110rpx;
+}
+
+.footercart {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+
+.footercart .total+view {
+    background: #ff5555;
+}
+
+.carIcon {
+    position: relative;
+    width: 110rpx;
+    height: 110rpx;
+    border-radius: 50%;
+    border: 8rpx solid #474749;
+    margin: 0 32rpx 0 30rpx;
+    background: #ff5555;
+    margin-top: -40rpx;
+    float: left;
+}
+
+.shopCar .shopCarImg {
+    width: 110rpx;
+    height: 110rpx;
+    border-radius: 50%;
+    position: relative;
+    color: #fff;
+    font-size: 58rpx;
+    text-align: center;
+    line-height: 110rpx;
+}
+
+.shopCar i {
+    width: 16rpx;
+    height: 16rpx;
+    position: absolute;
+    border-radius: 50%;
+    background: #e40100;
+    right: 24rpx;
+    top: 28rpx;
+}
+
+
+.total view:nth-of-type(1) {
+    font-size: 32rpx;
+    margin-top: 14rpx;
+}
+
+.total+view {
+    background: #ff9d55;
+    width: 200rpx;
+    text-align: center;
+    line-height: 98rpx;
+    float: right;
+    font-size: 28rpx;
+}
+
+.total {
+    float: left;
+}
+
+.shopCar2 i {
+    position: absolute;
+    top: -2rpx;
+    right: -10rpx;
+    width: 40rpx;
+    height: 40rpx;
+    border-radius: 50%;
+    background: #e40100;
+    display: block;
+    text-align: center;
+    font-size: 22rpx;
+    line-height: 40rpx;
+}
+
+.shopCarList {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    transition: all 0.6s;
+    display: flex;
+    flex-direction: column;
+    z-index: 1002;
+}
+.shopCarList>view:nth-of-type(2) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+}
+
+.displayNo {
+    top: 100%;
+}
+
+.scListTit {
+    justify-content: space-between;
+    background: #f7f5f5;
+    line-height: 80rpx;
+    padding: 0 28rpx;
+    font-size: 26rpx;
+}
+
+.scListTit text:nth-of-type(2) {
+    color: #999;
+}
+
+.footerList {
+    max-height: 620rpx;
+    min-height: 320rpx;
+}
+
+.footerList .noGoods {
+    text-align: center;
+    font-size: 26rpx;
+    display: block;
+    margin: 80rpx auto;
+}
+
+.flex {
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.carList {
+    overflow: hidden;
+    padding-bottom: 8rpx;
+    margin: 0 28rpx;
+    font-size: 28rpx;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.carList>view {
+    float: right;
+}
+
+.carList>view.goodsMsg {
+    float: left;
+    width: 400rpx;
+}
+
+.carList .goodsMsg view:nth-of-type(1) {
+    line-height: 36rpx;
+    padding-top: 30rpx;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+.carList .goodsMsg view:nth-of-type(2) {
+    color: #b3b3b3;
+    font-size: 24rpx;
+    padding-bottom: 30rpx;
+}
+
+.money {
+    color: #ff5555;
+    margin: 48rpx 30rpx 0 0;
+}
+
+.carList .addShopCar {
+    margin-top: 40rpx;
+}
+
+.right2 .addShopCar {
+    position: absolute;
+    right: 20rpx;
+    bottom: -10rpx;
+    font-size: 30rpx;
+    color: #666;
+} 
+
+.addShopCar icon {
+    font-size: 52rpx;
+    border-radius: 50%;
+    color: #fa4040;
+}
+
+.addShopCar text {
+    padding: 0 10rpx;
+    line-height: 54rpx;
+}
+
+
+.money {
+    color: #ff5555;
+    margin: 48rpx 30rpx 0 0;
+}
+
+
+.nogoods {
+    text-align: center;
+    padding: 20rpx 0;
+    font-size: 26rpx;
+}
+.tips {
+    font-size: 22rpx;
+    color: #666;
+    text-align: center;
+    line-height: 56rpx;
+    background: #f5f5f5;
+}
+
+.act-tips {
+    display: inline-block;
+    width: 18rpx;
+    height: 18rpx;
+    border: 1px solid #ff5555;
+    transform: rotate(45deg);
+    margin-right: 26rpx;
+}
+
+.shopCar2 {
+    background: #474749;
+    height: 98rpx;
+    color: #fff;
+    font-size: 22rpx;
+    width: 100%;
+}
+
+.good_box {
+    width: 18px;
+    height: 18px;
+    position: fixed;
+    border-radius: 50%;
+    overflow: hidden;
+    left: -50%;
+    top: 50%;
+    z-index: +99;
+    background: #ff5555;
+}
