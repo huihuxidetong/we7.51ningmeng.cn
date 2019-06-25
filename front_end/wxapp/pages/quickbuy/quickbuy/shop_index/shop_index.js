@@ -192,6 +192,9 @@ Page({
     addCartquick: function(t, a) {
         console.log(t + ";" + a);
         var e = this, i = e.data.numtotal, o = 1 == this.data.main.cartdata ? this.data.pageid : "";
+      console.log(111);
+      console.log(e.data);
+      console.log(2222);
         r.get("quick/index/update", {
             quickid: o,
             goodsid: e.data.goodsid,

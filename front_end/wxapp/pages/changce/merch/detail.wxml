@@ -93,5 +93,52 @@
     <view bindtap="emptyActive" class="nav-mask" 
     style="{{active?'display:block':''}}  ">
     </view>
-
 </view>
+<view class="shopCar2 footercart">
+    <view bindtap="shopCarList" class="carIcon">
+        <icon class="shopCarImg icox icox-cartfill"></icon>
+        <i wx:if="{{main.total}}">{{main.total}}</i>
+    </view>
+    <view class="total">
+        <view>￥{{main.totalprice}}</view>
+        <view>优惠信息请至结算页面查看</view>
+    </view>
+    <view bindtap="gopay">去结算</view>
+</view>
+<view class="{{clickCar?'shopCarList':'shopCarList displayNo'}}">
+    <view bindtap="shopCarHid" style="flex:1"></view>
+    <view>
+        <view class="flex scListTit">
+            <text>购物车</text>
+            <text bindtap="clearShopCartFn">清空</text>
+        </view>
+        <scroll-view scrollY class="footerList">
+            <view class="carList" wx:if="{{cartcartArr[goods.optionid=='0'?goods.goodsid:goods.optionid]!=0}}" wx:for="{{main.list}}" wx:for-item="goods" wx:key="unique">
+                <view class="goodsMsg">
+                    <view>{{goods.title}}</view>
+                    <view>{{goods.optiontitle?goods.optiontitle:''}}</view>
+                </view>
+                <view class="addShopCar flex">
+                    <icon bindtap="cartaddcart" class="icox icox-offline" data-add="reduce" data-goodsid="{{goods.goodsid}}" data-id="{{goods.optionid}}" data-min="{{goods.minbuy}}" data-num="{{cartcartArr[goods.optionid=='0'?goods.goodsid:goods.optionid]>0?cartcartArr[goods.optionid=='0'?goods.goodsid:goods.optionid]:goods.total}}"></icon>
+                    <text>{{cartcartArr[goods.optionid=='0'?goods.goodsid:goods.optionid]>0?cartcartArr[goods.optionid=='0'?goods.goodsid:goods.optionid]:goods.total}}</text>
+                    <icon bindtap="cartaddcart" class="icox icox-addition_fill" data-add="add" data-goodsid="{{goods.goodsid}}" data-id="{{goods.optionid}}" data-maxnum="{{goods.maxbuy}}" data-store="{{goods.stock}}"></icon>
+                </view>
+                <view class="money">￥{{goods.marketprice}}</view>
+            </view>
+            <text class="noGoods" wx:if="{{!main.list.length}}">暂时没有商品喔~</text>
+        </scroll-view>
+        <view class="tips" wx:if="{{main.list.length}}">Tips：加入购物车后请尽快下单哦~</view>
+        <view class="shopCar2">
+            <view bindtap="shopCarHid" class="carIcon">
+                <icon class="shopCarImg icox icox-cartfill"></icon>
+                <i wx:if="{{main.list.length}}">{{main.total}}</i>
+            </view>
+            <view class="total">
+                <view>￥{{main.totalprice}}</view>
+                <view>优惠信息请至结算页面查看</view>
+            </view>
+            <view bindtap="gopay">去结算</view>
+        </view>
+    </view>
+</view>
+<view class="good_box" hidden="{{hide_good_box}}" style="left: {{bus_x}}px; top: {{bus_y}}px;"></view>

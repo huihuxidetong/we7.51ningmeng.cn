@@ -1,5 +1,12 @@
-
-var t = getApp(), a = t.requirejs("core"), b = t.requirejs("jquery"), s = t.requirejs("biz/diyform"), c = t.requirejs("biz/goodspicker");
+function h(t, a, e) {
+  return a in t ? Object.defineProperty(t, a, {
+    value: e,
+    enumerable: !0,
+    configurable: !0,
+    writable: !0
+  }) : t[a] = e, t;
+}
+var t = getApp(), a = t.requirejs("core"), b = t.requirejs("jquery"), s = t.requirejs("biz/diyform"), c = t.requirejs("biz/goodspicker"), l = t.requirejs("foxui");
 // t.requirejs("jquery");
 var o = t.requirejs("foxui");
 Page({
@@ -13,6 +20,7 @@ Page({
         loading: !1,
         loaded: !1,
         list: [],
+        numtotal:[],
         approot: t.globalData.approot,
         modelShow: !1,
         count: 0,
@@ -22,11 +30,28 @@ Page({
           by: "desc",
         },
         listmode: "block",
+        tempname:"",
+        formdataval: {},
+        showPicker: !1
     },
     onLoad: function(t) {
+      var i = this;
         this.setData({
             merchid: t.id,
-        }), this.getMerch(), this.getList();
+        }), this.getMerch(), this.getList(),
+          a.get("quick/index/getCart", {
+            quickid: ""
+          }, function (t) {
+            var a = [];
+            for (var e in t.simple_list) a[e] = t.simple_list[e];
+            i.setData({
+              numtotal: a,
+              main: t
+            });
+          }), wx.hideLoading(), wx.setNavigationBarTitle({
+            title: t.pagetitle
+          });
+         //this.shopCarList();
     },
     getMerch: function() {
         var t = this;
@@ -130,6 +155,7 @@ Page({
         wx.navigateBack({});
     },
     selectPicker: function (t) {
+
       var e = this;
       e.setData({
         total: 1,
@@ -160,8 +186,20 @@ Page({
     c.buyNow(t, e);
   },
   getCart: function (t) {
-    var e = this;
-    c.getCart(t, e);
+    var i = this;
+    c.getCart(t, i);
+    a.get("quick/index/getCart", {
+      quickid: ""
+    }, function (t) {
+      var a = [];
+      for (var e in t.simple_list) a[e] = t.simple_list[e];
+      i.setData({
+        numtotal: a,
+        main: t
+      });
+    }), wx.hideLoading(), wx.setNavigationBarTitle({
+      title: t.pagetitle
+    });
   },
   select: function () {
     var t = this;
@@ -256,4 +294,86 @@ Page({
       fromsearch: !1,
     }), this.getList();
   },
+  shopCarList: function () {
+    var t = this;
+    this.setData({
+      clickCar: !0,
+      cartcartArr: [],
+      showPicker: !0
+    });
+    a.get("quick/index/getCart", {
+      quickid: a
+    }, function (a) {
+      t.setData({
+        main: a
+      });
+      for (var r = [], i = 0; i < a.list.length; i++) r[i] = a.list[i].goodsid;
+      t.setData({
+        tempcartid: r
+      });
+    });
+  },
+  gopay: function () {
+    console.log(111)
+    var t = 1 == this.data.main.cartdata ? this.data.pageid : "";
+    this.data.main.list.length ? wx.navigateTo({
+      url: "/pages/order/create/index?fromquick=" + t
+    }) : l.toast(this, "请先添加商品到购物车");
+  },
+  shopCarHid: function () {
+    this.setData({
+      clickCar: !1,
+      showPicker: !1
+    });
+  },
+  cartaddcart: function (t) {
+    var b = this, e = 1 == this.data.main.cartdata ? this.data.pageid : "", i = "0" == t.currentTarget.dataset.id ? t.currentTarget.dataset.goodsid : t.currentTarget.dataset.id, o = t.currentTarget.dataset.add;
+    t.currentTarget.dataset.min == t.currentTarget.dataset.num && "reduce" == o && (o = "delete"),
+      a.get("quick/index/update", {
+        quickid: e,
+        goodsid: t.currentTarget.dataset.goodsid,
+        optionid: "0" == t.currentTarget.dataset.id ? "" : t.currentTarget.dataset.id,
+        update: "",
+        total: "",
+        type: o,
+        typevalue: 1
+      }, function (e) {
+        if (console.log(e), 0 == e.error) {
+          var r = b.data.cartcartArr;
+          r[i] = e.goodsOptionTotal || 0 == e.goodsOptionTotal ? e.goodsOptionTotal : e.goodstotal;
+          var o = b.data.main;
+          o.total = e.total, o.totalprice = e.totalprice;
+          var n = b.data.numtotal;
+          n[t.currentTarget.dataset.goodsid] = e.goodstotal, b.setData({
+            cartcartArr: r,
+            main: o,
+            numtotal: n
+          });
+        } else l.toast(a, e.message);
+      });
+  },
+  clearShopCartFn: function (t) {
+    var b = this, e = 1 == this.data.main.cartdata ? this.data.pageid : "";
+    a.get("quick/index/clearCart", {
+      quickid: e
+    }, function (t) {
+      console.log(t);
+      var e = b.data.main;
+      console.log(111);
+      console.log(e);
+      e.list=[];
+      e.total = 0;
+      e.totalprice = 0;
+      for (var r = b.data.tempcartid, i = [], s = 0; s < r.length; s++){ 
+        i[Number(r[s])] = -1;
+      }
+      b.setData({
+        main: e,
+        clickCar: !1,
+        numtotal: i,
+        clearcart: !1,
+        showPicker: !1
+      });
+    });
+  }
 });
