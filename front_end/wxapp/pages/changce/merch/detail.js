@@ -327,7 +327,7 @@ Page({
     });
   },
   cartaddcart: function (t) {
-    var b = this, e = 1 == this.data.main.cartdata ? this.data.pageid : "", i = "0" == t.currentTarget.dataset.id ? t.currentTarget.dataset.goodsid : t.currentTarget.dataset.id, o = t.currentTarget.dataset.add;
+    var b = this, e = 1 == this.data.main.cartdata ? this.data.pageid : "", i = "0" == t.currentTarget.dataset.id ? t.currentTarget.dataset.goodsid : t.currentTarget.dataset.id, o =     t.currentTarget.dataset.add;
     t.currentTarget.dataset.min == t.currentTarget.dataset.num && "reduce" == o && (o = "delete"),
       a.get("quick/index/update", {
         quickid: e,
@@ -349,7 +349,7 @@ Page({
             main: o,
             numtotal: n
           });
-        } else l.toast(a, e.message);
+        } else l.toast(b, e.message);
       });
   },
   clearShopCartFn: function (t) {
