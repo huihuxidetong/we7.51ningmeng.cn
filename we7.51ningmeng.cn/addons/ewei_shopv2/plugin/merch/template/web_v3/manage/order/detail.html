@@ -119,7 +119,7 @@
     }
 </style>
 <div class="page-header">
-    当前位置：<span class="text-primary">订单详情</span>
+    当前位置：<span class="text-primary">订单详情</span><a class='op text-primary' style="float: right"  href="{php echo webUrl('order/print', array('id' => $item['id']))}" >打印预览</a>
 </div>
 <div class="page-content">
 {if $item['status']!=-1}
