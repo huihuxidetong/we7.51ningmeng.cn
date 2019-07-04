@@ -63,7 +63,7 @@ class List_EweiShopV2Page extends WebPage
 			$condition .= " and dm.isblack=" . intval($_GPC["isblack"]);
 		}
 		$sql = "select * ,dm.openid from " . tablename("ewei_shop_member") . " dm " . $join . " where 1 " . $condition . "  ORDER BY dm.id DESC,dm.createtime DESC ";
-		if( empty($_GPC["export"]) ) 
+		if( empty($_GPC["export"]) )
 		{
 			$sql .= " limit " . ($pindex - 1) * $psize . "," . $psize;
 		}
@@ -107,6 +107,14 @@ class List_EweiShopV2Page extends WebPage
 		$shop = m('common')->getSysset('shop');
 		foreach( $list as &$row ) 
 		{
+			$addressSql = "SELECT * FROM ". tablename("ewei_shop_member_address") . " md ". " WHERE 1 AND md.uniacid =".$row['uniacid'].  " AND md.openid = "."'".$row['openid']."'";
+			$address = pdo_fetch($addressSql, null);
+			$row["province"] = $address['province'];
+			$row["city"] = $address['city'];
+			$row["area"] = $address['area'];
+			$row["address"] = $address['address'];
+			$row["diydianpumingcheng"] = iunserializer($row["diymemberdata"])['diydianpumingcheng'];
+			$row["diyfuzeren"] = iunserializer($row["diymemberdata"])['diyfuzeren'];
 			$row["groupname"] = (isset($res_group[$row["groupid"]]) ? $res_group[$row["groupid"]]["groupname"] : "");
 			$row["levelname"] = (isset($res_level[$row["level"]]) ? $res_level[$row["level"]]["levelname"] : "");
 			$row["agentnickname"] = (isset($res_agent[$row["agentid"]]) ? $res_agent[$row["agentid"]]["agentnickname"] : "");
@@ -221,6 +229,7 @@ class List_EweiShopV2Page extends WebPage
 			$aagentlevels = $plugin_abonus->getLevels();
 		}
 		$member = m("member")->getMember($id);
+
 		if( $hascommission ) 
 		{
 			$member = $plugin_com->getInfo($id, array( "total", "pay" ));
