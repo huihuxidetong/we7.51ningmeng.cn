@@ -137,8 +137,8 @@ App({
   },
   globalData: {
       appid: "wx125116c3af279c34",
-    //api: "http://10.7.24.220/app/ewei_shopv2_api.php?i=4",
-    //approot: "http://10.7.24.220/addons/ewei_shopv2/",
+    //api: "http://lcoalhost/app/ewei_shopv2_api.php?i=4",
+    //approot: "http://lcoalhost/addons/ewei_shopv2/",
     api: "https://we7.51ningmeng.cn/app/ewei_shopv2_api.php?i=4",
    approot: "https://we7.51ningmeng.cn/addons/ewei_shopv2/",
       userInfo: null
