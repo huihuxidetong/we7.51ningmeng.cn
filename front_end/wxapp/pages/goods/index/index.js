@@ -49,7 +49,9 @@ Page({
         searchRecords: [],
         areas: [],
         limits: !0,
-        modelShow: !1
+        modelShow: !1,
+        hidegoodsprice:1,
+        level:0
     },
     onLoad: function(e) {
         var s = this;
@@ -102,13 +104,12 @@ Page({
         t.setData({
             loading: !0
         }), t.data.params.page = t.data.page, e.get("goods/get_list", t.data.params, function(e) {
-            console.log(e);
             var a = {
                 loading: !1,
                 count: e.total,
                 show: !0
             };
-            e.list || (e.list = []), e.list.length > 0 && (a.page = t.data.page + 1, a.list = t.data.list.concat(e.list), 
+          e.list || (e.list = []), e.list.length > 0 && (a.page = t.data.page + 1, a.list = t.data.list.concat(e.list),
             e.list.length < e.pagesize && (a.loaded = !0)), t.setData(a);
         });
     },
@@ -302,7 +303,7 @@ Page({
     selectPicker: function(t) {
         var e = this;
         console.log(e);
-        if (console.log(e.data.limits), e.data.limits) {
+        if ( e.data.limits) {
             i.selectpicker(t, e, "goodslist");
         } else e.setData({
             modelShow: !0

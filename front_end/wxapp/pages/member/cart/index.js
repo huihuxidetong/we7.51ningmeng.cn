@@ -114,6 +114,9 @@ Page({
     },
     number: function(t) {
         var a = this, s = e.pdata(t), c = i.number(this, t), o = s.id, l = s.optionid;
+      console.log(o);
+      console.log(l);
+      console.log(c);
         1 == c && 1 == s.value && "minus" == t.target.dataset.action || s.value == s.max && "plus" == t.target.dataset.action || e.post("member/cart/update", {
             id: o,
             optionid: l,

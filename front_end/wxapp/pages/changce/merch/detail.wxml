@@ -65,18 +65,26 @@
             </navigator>
             <view class="detail">
                 <navigator hoverClass="none" url="/pages/goods/detail/index?id={{item.id}}">
-                    <view class="name"> {{item.title}} </view>
+                    <view class="name">{{item.title}} </view>
                 </navigator>
                 <view class="price">
-                    <view class="text">￥{{item.minprice}}</view>
-					          <view bindtap="selectPicker" data-buytype="buy" data-id="{{item.id}}">
+                    <view class="text" wx:if="{{0== hidegoodsprice}}">￥{{item.minprice}}</view>
+                    <view class="text" wx:if="{{1== hidegoodsprice && 0 >= level}}">￥???</view>
+                    <view class="text" wx:if="{{1== hidegoodsprice && level >0 }}">￥{{item.minprice}}</view>
+					          <view bindtap="selectPicker" data-buytype="buy" data-id="{{item.id}}" wx:if="{{1== hidegoodsprice && level >0 }}">
                       <text class="buy icox icox-gouwuche buybtnbtn buybtn-5" style="color:#ff5555"></text>
-					          </view>	      				
+					          </view> 
+                    <view bindtap="selectPicker" data-buytype="buy" data-id="{{item.id}}" wx:if="{{0== hidegoodsprice }}">
+                      <text class="buy icox icox-gouwuche buybtnbtn buybtn-5" style="color:#ff5555"></text>
+					          </view>  	  
+                    <view wx:if="{{1== hidegoodsprice && 0 >= level}}">
+                      <block>仅限会员购买</block>
+					          </view>   	  
                 </view>
             </view>
         </view>
     </view>
-    <view class="model" wx:if="{{modelShow}}">
+ <view class="model" wx:if="{{modelShow}}">
         <view class="inner1">
             <view class="title">用户未授权</view>
             <view class="subtitle">您需要先允许【用户授权】，才能进行后续操作哦~</view>
@@ -118,11 +126,22 @@
                     <view>{{goods.title}}</view>
                     <view>{{goods.optiontitle?goods.optiontitle:''}}</view>
                 </view>
-                <view class="addShopCar flex">
-                    <icon bindtap="cartaddcart" class="icox icox-offline" data-add="reduce" data-goodsid="{{goods.goodsid}}" data-id="{{goods.optionid}}" data-min="{{goods.minbuy}}" data-num="{{cartcartArr[goods.optionid=='0'?goods.goodsid:goods.optionid]>0?cartcartArr[goods.optionid=='0'?goods.goodsid:goods.optionid]:goods.total}}"></icon>
+                <view class="addShopCar flex" wx:if="{{goods.hidegoodsprice==0}}">
+                    <icon bindtap="cartaddcart" class="icox icox-offline" data-add="reduce" data-goodsid="{{goods.goodsid}}" data-id="{{goods.optionid}}" data-min="{{goods.minbuy}}"     
+                    data-num="{{cartcartArr[goods.optionid=='0'?goods.goodsid:goods.optionid]>0?cartcartArr[goods.optionid=='0'?goods.goodsid:goods.optionid]:goods.total}}"></icon>
                     <text>{{cartcartArr[goods.optionid=='0'?goods.goodsid:goods.optionid]>0?cartcartArr[goods.optionid=='0'?goods.goodsid:goods.optionid]:goods.total}}</text>
-                    <icon bindtap="cartaddcart" class="icox icox-addition_fill" data-add="add" data-goodsid="{{goods.goodsid}}" data-id="{{goods.optionid}}" data-maxnum="{{goods.maxbuy}}" data-store="{{goods.stock}}"></icon>
+                    <icon bindtap="cartaddcart" class="icox icox-addition_fill" data-add="add" data-goodsid="{{goods.goodsid}}" data-id="{{goods.optionid}}" data-maxnum="{{goods.maxbuy}}                     "data-store="{{goods.stock}}"></icon>
                 </view>
+                <view class="addShopCar flex" wx:if="{{goods.hidegoodsprice==1 && goods.level>0}}">
+                    <icon bindtap="cartaddcart" class="icox icox-offline" data-add="reduce" data-goodsid="{{goods.goodsid}}" data-id="{{goods.optionid}}" data-min="{{goods.minbuy}}"     
+                    data-num="{{cartcartArr[goods.optionid=='0'?goods.goodsid:goods.optionid]>0?cartcartArr[goods.optionid=='0'?goods.goodsid:goods.optionid]:goods.total}}"></icon>
+                    <text>{{cartcartArr[goods.optionid=='0'?goods.goodsid:goods.optionid]>0?cartcartArr[goods.optionid=='0'?goods.goodsid:goods.optionid]:goods.total}}</text>
+                    <icon bindtap="cartaddcart" class="icox icox-addition_fill" data-add="add" data-goodsid="{{goods.goodsid}}" data-id="{{goods.optionid}}" data-maxnum="{{goods.maxbuy}}                     "data-store="{{goods.stock}}"></icon>
+                </view>
+
+                  <view  class="addShopCar flex" wx:if="{{goods.hidegoodsprice==1 && 0>=goods.level}}">
+                    <text>仅限会员购买</text>
+					        </view>   	
                 <view class="money">￥{{goods.marketprice}}</view>
             </view>
             <text class="noGoods" wx:if="{{!main.list.length}}">暂时没有商品喔~</text>

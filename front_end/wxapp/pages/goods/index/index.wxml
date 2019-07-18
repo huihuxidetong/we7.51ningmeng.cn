@@ -17,10 +17,19 @@
                 <text wx:if="{{item.productprice>0}}">¥{{item.productprice}}</text>
             </view>
             <view class="price">
-                <view class="text">¥{{item.minprice}}</view>
-                <view bindtap="selectPicker" data-buytype="buy" data-id="{{item.id}}" wx:if="{{item.type!=9&&item.type!=5&&item.bargain==0}}">
+                <view class="text" wx:if="{{0== item.hidegoodsprice}}">￥{{item.minprice}}</view>
+                <view class="text" wx:if="{{1== item.hidegoodsprice && 0 >= item.level}}">￥???</view>
+                <view class="text" wx:if="{{1== item.hidegoodsprice && item.level > 0}}">￥{{item.minprice}}</view>
+                <view bindtap="selectPicker" data-buytype="buy" data-id="{{item.id}}" wx:if="{{item.type!=9&&item.type!=5&&item.bargain==0 && 1==item.hidegoodsprice && item.level > 0}}">
                     <text class="buy icox icox-gouwuche buybtnbtn buybtn-5" style="color:#ff5555"></text>
                 </view>
+                <view bindtap="selectPicker" data-buytype="buy" data-id="{{item.id}}" wx:if="{{item.type!=9&&item.type!=5&&item.bargain==0 && 0==item.hidegoodsprice}}">
+                    <text class="buy icox icox-gouwuche buybtnbtn buybtn-5" style="color:#ff5555"></text>
+                </view>  
+                <view wx:if="{{1== item.hidegoodsprice && 0 >= item.level}}">
+                  <block>仅限会员购买</block>
+                </view> 
+
                 <navigator class="buy buybtnbtn buybtn-1 " style="" url="/pages/goods/detail/index?id={{item.id}}" wx:if="{{item.type==9&&item.bargain==0}}">详情</navigator>
                 <navigator class="buy buybtnbtn buybtn-1" style="" url="/pages/goods/detail/index?id={{item.id}}" wx:if="{{item.type==5&&item.bargain==0}}">详情</navigator>
                 <navigator class="buy buybtnbtn buybtn-1" style="" url="/pages/bargain/detail/detail?id={{item.bargain}}" wx:if="{{item.bargain>0}}">详情</navigator>

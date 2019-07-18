@@ -32,26 +32,32 @@ Page({
         listmode: "block",
         tempname:"",
         formdataval: {},
-        showPicker: !1
+        showPicker: !1,
+        limits: !0,
+        modelShow: !1,
+        showgoods: !0,
+        hidegoodsprice : 1,
+        level: 0
     },
     onLoad: function(t) {
       var i = this;
-        this.setData({
-            merchid: t.id,
-        }), this.getMerch(), this.getList(),
-          a.get("quick/index/getCart", {
-            quickid: ""
-          }, function (t) {
-            var a = [];
-            for (var e in t.simple_list) a[e] = t.simple_list[e];
-            i.setData({
-              numtotal: a,
-              main: t
-            });
-          }), wx.hideLoading(), wx.setNavigationBarTitle({
-            title: t.pagetitle
+      this.setData({
+          merchid: t.id,
+      }), this.getMerch(), this.getList(),
+        a.get("quick/index/getCart", {
+          quickid: ""
+        }, function (t) {
+          var a = [];
+          for (var e in t.simple_list) a[e] = t.simple_list[e];
+          i.setData({
+            numtotal: a,
+            main: t
           });
-         //this.shopCarList();
+        }), wx.hideLoading(), wx.setNavigationBarTitle({
+          title: t.pagetitle
+        });
+    
+        //this.shopCarList();
     },
     getMerch: function() {
         var t = this;
@@ -78,9 +84,11 @@ Page({
             keywords: this.data.params.keywords,
         }, function(e) {
             var i = {
-                loading: !1,
-                count: e.total,
-                pagesize: e.pagesize
+              loading: !1,
+              count: e.total,
+              pagesize: e.pagesize,
+              hidegoodsprice: e.hidegoodsprice,
+              level: e.level
             };
             e.list.length > 0 && (i.page = t.data.page + 1, i.list = t.data.list.concat(e.list), 
             e.list.length < e.pagesize && (i.loaded = !0), t.setSpeed(e.list)), t.setData(i), 
@@ -155,7 +163,6 @@ Page({
         wx.navigateBack({});
     },
     selectPicker: function (t) {
-
       var e = this;
       e.setData({
         total: 1,
@@ -314,16 +321,27 @@ Page({
     });
   },
   gopay: function () {
-    console.log(111)
-    var t = 1 == this.data.main.cartdata ? this.data.pageid : "";
-    this.data.main.list.length ? wx.navigateTo({
-      url: "/pages/order/create/index?fromquick=" + t
-    }) : l.toast(this, "请先添加商品到购物车");
+    var e = this;
+    console.log(e.data.limits);
+    if (e.data.limits) {
+      var t = 1 == this.data.main.cartdata ? this.data.pageid : "";
+      this.data.main.list.length ? wx.navigateTo({
+        url: "/pages/order/create/index?fromquick=" + t
+      }) : l.toast(this, "请先添加商品到购物车");
+    } else e.setData({
+      modelShow: !0
+    });
   },
   shopCarHid: function () {
-    this.setData({
-      clickCar: !1,
-      showPicker: !1
+    var e = this;
+    console.log(e.data);
+    if (e.data.limits) {
+      this.setData({
+        clickCar: !1,
+        showPicker: !1
+      });
+    } else e.setData({
+      modelShow: !0
     });
   },
   cartaddcart: function (t) {
@@ -374,6 +392,18 @@ Page({
         clearcart: !1,
         showPicker: !1
       });
+    });
+  },
+  cancelclick: function () {
+    this.setData({
+      modelShow: !1
+    });
+  },
+  confirmclick: function () {
+    this.setData({
+      modelShow: !1
+    }), wx.openSetting({
+      success: function (t) { }
     });
   }
 });

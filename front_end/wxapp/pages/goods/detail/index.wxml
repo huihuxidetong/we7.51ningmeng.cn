@@ -103,8 +103,26 @@
                 </view>
                 <view class="fui-cell" wx:if="{{!goods.seckillinfo}}">
                     <view class="fui-cell-text price">
-                        <view class="text-danger">
+                        <view class="text-danger" wx:if="{{0== goods.hidegoodsprice}}">
                             ¥<block wx:if="{{goods.ispresell>0&&preselltimeend==0||preselltimeend>now}}">{{goods.presellprice}}</block>
+                            <block wx:else>
+                                <block wx:if="{{minprice==goods.maxprice}}">
+                                    {{minprice}}
+                                </block>
+                                <block wx:else>
+                                    {{minprice}} ~ {{maxprice}}
+                                </block>
+                            </block>
+                            <text class="original" wx:if="{{goods.isdiscount!=0&&goods.isdiscount_time>=now}}">¥{{goods.productprice}}</text>
+                            <block wx:else>
+                                <text class="original" wx:if="{{goods.productprice>minprice}}">¥{{goods.productprice}}</text>
+                            </block>
+                        </view>
+                        <view class="text-danger" wx:if="{{1== goods.hidegoodsprice && 0 >= goods.level}}">
+                            ￥???
+                        </view>
+                        <view class="text-danger" wx:if="{{1== goods.hidegoodsprice && goods.level >0 }}">
+                             ¥<block wx:if="{{goods.ispresell>0&&preselltimeend==0||preselltimeend>now}}">{{goods.presellprice}}</block>
                             <block wx:else>
                                 <block wx:if="{{minprice==goods.maxprice}}">
                                     {{minprice}}
