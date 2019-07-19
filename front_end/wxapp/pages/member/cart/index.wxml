@@ -46,11 +46,19 @@
                             <text class="text-danger">¥{{val.marketprice}}</text>
                             <text class="productprice" wx:if="{{val.productprice>val.marketprice}}">¥{{val.productprice}}</text>
                         </text>
-                        <view bindtap="number" class="fui-number small" data-id="{{val.id}}" data-max="{{val.totalmaxbuy}}" data-min="{{val.minbuy}}" data-optionid="{{val.optionid}}" data-value="{{val.total}}">
+                        <view bindtap="number" class="fui-number small" data-id="{{val.id}}" data-max="{{val.totalmaxbuy}}" data-min="{{val.minbuy}}" data-optionid="{{val.optionid}}" data-value="{{val.total}}" wx:if="{{val.hidegoodsprice == 1 && val.level >0}}">
                             <view class="minus {{val.total<=1?'disabled':''}}" data-action="minus">-</view>
                             <input disabled class="num shownum" name="" type="tel" value="{{val.total}}"></input>
                             <view class="plus {{val.total>=val.totalmaxbuy?'disabled':''}}" data-action="plus">+</view>
                         </view>
+                        <view bindtap="number" class="fui-number small" data-id="{{val.id}}" data-max="{{val.totalmaxbuy}}" data-min="{{val.minbuy}}" data-optionid="{{val.optionid}}" data-value="{{val.total}}" wx:if="{{val.hidegoodsprice == 0}}">
+                            <view class="minus {{val.total<=1?'disabled':''}}" data-action="minus">-</view>
+                            <input disabled class="num shownum" name="" type="tel" value="{{val.total}}"></input>
+                            <view class="plus {{val.total>=val.totalmaxbuy?'disabled':''}}" data-action="plus">+</view>
+                        </view>
+                        <view wx:if="{{1== val.hidegoodsprice && 0 >= val.level}}">
+                          <block>仅限会员购买</block>
+                      </view> 
                     </view>
                 </view>
             </view>

@@ -97,7 +97,7 @@
         <tr ><td colspan='8' style='height:20px;padding:0;border-top:none;'>&nbsp;</td></tr>
         <tr class='trorder'>
             <td colspan='4' >
-               <span style="font-weight: bold;">{php echo date('Y-m-d',$item['createtime'])} {php echo date('H:i:s',$item['createtime'])}</span>
+                <span style="font-weight: bold;">{php echo date('Y-m-d',$item['createtime'])} {php echo date('H:i:s',$item['createtime'])}</span>
                 订单编号:  {$item['ordersn']}
                 {if !empty($item['refundstate'])}<label class='label label-danger'>{$r_type[$item['rtype']]}申请</label>{/if}
                 {if !empty($item['refundstate']) && $item['rstatus'] == 4}<label class='label label-default'>客户退回物品</label>{/if}
@@ -113,16 +113,16 @@
                 {/if}
                 {ifp 'order.op.remarksaler'}
                 <a class='op'  data-toggle="ajaxModal" href="{php echo merchUrl('order/op/remarksaler', array('id' => $item['id']))}">
-                {if !empty($item['remarksaler'])}
-                <i class="icow icow-flag-o" style="color: #df5254;display: inline-block;vertical-align: middle" title="  查看备注"></i>
+                    {if !empty($item['remarksaler'])}
+                    <i class="icow icow-flag-o" style="color: #df5254;display: inline-block;vertical-align: middle" title="  查看备注"></i>
                     备注
-                &nbsp
-                {else}
-                <i class="icow icow-yibiaoji" style="color: #999;display: inline-block;vertical-align: middle" title="  添加备注" ></i>
+                    &nbsp
+                    {else}
+                    <i class="icow icow-yibiaoji" style="color: #999;display: inline-block;vertical-align: middle" title="  添加备注" ></i>
                     备注
-                &nbsp
-                {/if}
-               </a>
+                    &nbsp
+                    {/if}
+                </a>
                 {/if}
                 {if empty($item['statusvalue'])}
                 {if $merch_user['changepricechecked'] == 1}
@@ -160,13 +160,7 @@
                 {/if}
 
                 <br/>
-                {$item['addressdata']['realname']}
-				<br/>{$item['addressdata']['mobile']}
-				{if !empty($item['addressdata']['shopname'])}
-					<br/>{$item['addressdata']['shopname']}
-				{/if}
-				<br/>{$item['addressdata']['address']}				
-			</td>
+                {$item['addressdata']['realname']}<br/>{$item['addressdata']['mobile']}<br/>{$item['addressdata']['address']}</td>
             <td rowspan="{php echo count($item['goods'])}" style='text-align:center;' >
 
                 <!-- 已支付 -->
@@ -277,7 +271,7 @@
 
                 </table>
     "
-                    ><i class='fa fa-question-circle'></i></a>
+            ><i class='fa fa-question-circle'></i></a>
                 {if $item['dispatchprice']>0}
                 <br/>(含运费:￥{php echo number_format( $item['dispatchprice'],2)})
                 {/if}
@@ -305,34 +299,34 @@
         {/if}
 
         {if !empty($level) && $merch_user['commissionchecked'] == 1}
-            <tr style=";border-bottom:none;background:#f9f9f9;">
-                <td colspan='4' style='text-align:left'>
-                    {if !empty($agentid)}
-                    <b>分销订单级别:</b> {$item['level']}级 <b>分销佣金:</b> {$item['commission']} 元
+        <tr style=";border-bottom:none;background:#f9f9f9;">
+            <td colspan='4' style='text-align:left'>
+                {if !empty($agentid)}
+                <b>分销订单级别:</b> {$item['level']}级 <b>分销佣金:</b> {$item['commission']} 元
 
-                    {/if}
-                </td>
-                <td colspan='4' style='text-align:right'>
-                    {if empty($agentid)}
-                    {if $item['commission1']!=-1}<b>1级佣金:</b> {$item['commission1']} 元 {/if}
-                    {if $item['commission2']!=-1}<b>2级佣金:</b> {$item['commission2']} 元 {/if}
-                    {if $item['commission3']!=-1}<b>3级佣金:</b> {$item['commission3']} 元 {/if}
-                    {/if}
-                </td>
-            </tr>
+                {/if}
+            </td>
+            <td colspan='4' style='text-align:right'>
+                {if empty($agentid)}
+                {if $item['commission1']!=-1}<b>1级佣金:</b> {$item['commission1']} 元 {/if}
+                {if $item['commission2']!=-1}<b>2级佣金:</b> {$item['commission2']} 元 {/if}
+                {if $item['commission3']!=-1}<b>3级佣金:</b> {$item['commission3']} 元 {/if}
+                {/if}
+            </td>
+        </tr>
         {else}
-            <tr style=";border-bottom:none;background:#f9f9f9;">
-                <td colspan='8' style='text-align:left'>
-                </td>
-            </tr>
+        <tr style=";border-bottom:none;background:#f9f9f9;">
+            <td colspan='8' style='text-align:left'>
+            </td>
+        </tr>
         {/if}
         {/loop}
         <tfoot>
-            <tr>
-                <td colspan="8" class="text-right">
-                    {$pager}
-                </td>
-            </tr>
+        <tr>
+            <td colspan="8" class="text-right">
+                {$pager}
+            </td>
+        </tr>
         </tfoot>
     </table>
     {else}
